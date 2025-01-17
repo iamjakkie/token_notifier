@@ -7,3 +7,17 @@ edition = "2021"
 zmq = "0.10.0"
 serde_json = "1.0.133"
 serde = { version = "1.0.217", features = ["derive"] }
+lazy_static = "1.5.0"
+solana-client = "2.1.9"
+solana-sdk = "2.1.9"
+anyhow = "1.0.95"
+tokio = { version = "1.27", features = [
+    "time",
+    "sync",
+    "macros",
+    "test-util",
+    "rt-multi-thread",
+    "parking_lot",
+] }
+solana-account-decoder-client-types = "2.1.9"
+reqwest = { version = "0.12.12", features = ["json"] }

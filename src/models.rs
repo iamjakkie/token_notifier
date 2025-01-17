@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, PartialEq, Debug, Serialize, Deserialize)]
@@ -23,4 +25,18 @@ pub struct TradeData {
     pub inner_program: String,
     pub txn_fee_lamports: u64,
     pub signer_lamports_change: i64,
+}
+
+pub struct TokenMeta {
+    pub mint: String,
+    pub decimals: u8,
+    pub supply: f64,
+    pub amm: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct PriceResponse {
+    pub id: String,
+    pub success: bool,
+    pub data: HashMap<String, String>,
 }
