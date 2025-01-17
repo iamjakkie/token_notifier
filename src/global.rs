@@ -1,0 +1,18 @@
+use std::{env, sync::{Arc, RwLock}};
+use solana_client::rpc_client::RpcClient;
+use lazy_static::lazy_static;
+use solana_sdk::commitment_config::CommitmentConfig;
+
+lazy_static! {
+    pub static ref RPC_CLIENT: Arc<RpcClient> = {
+        let rpc_url = env::var("SOLANA_RPC_URL").expect("SOLANA_RPC_URL is not set");
+        Arc::new(RpcClient::new_with_commitment(
+            rpc_url,
+            CommitmentConfig::confirmed(),
+        ))
+    };
+}
+
+lazy_static! {
+    pub static ref SOL_PRICE: RwLock<f64> = RwLock::new(0.0);
+}
