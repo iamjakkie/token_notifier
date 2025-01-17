@@ -22,11 +22,9 @@ async fn fetch_sol_price() -> Result<f64> {
         .await?;
 
     let price: f64 = resp.data.get("So11111111111111111111111111111111111111112").expect("No price found").parse().unwrap();
-
-    println!("Response: {:?}", price);
     
     // Return the numeric price
-    Ok(0.0)
+    Ok(price)
 }
 
 pub async fn start_sol_price_updater() {
