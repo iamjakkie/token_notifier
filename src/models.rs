@@ -41,3 +41,6 @@ pub struct PriceResponse {
     pub success: bool,
     pub data: HashMap<String, String>,
 }
+
+#[derive(Serialize, Deserialize)]
+pub struct TokenList(pub Vec<String>);
