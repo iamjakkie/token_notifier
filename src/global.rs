@@ -16,3 +16,8 @@ lazy_static! {
 lazy_static! {
     pub static ref SOL_PRICE: RwLock<f64> = RwLock::new(0.0);
 }
+
+lazy_static!{
+    pub static ref BOT_TOKEN: String = env::var("BOT_TOKEN").expect("BOT_TOKEN is not set");
+    pub static ref CHAT_ID: String = env::var("CHAT_ID").expect("CHAT_ID is not set");
+}
