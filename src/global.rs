@@ -1,7 +1,9 @@
-use std::{env, sync::{Arc, RwLock}};
+use std::{collections::HashMap, env, sync::{Arc, RwLock}};
 use solana_client::rpc_client::RpcClient;
 use lazy_static::lazy_static;
 use solana_sdk::commitment_config::CommitmentConfig;
+
+use crate::models::TokenMeta;
 
 lazy_static! {
     pub static ref RPC_CLIENT: Arc<RpcClient> = {
@@ -20,4 +22,8 @@ lazy_static! {
 lazy_static!{
     pub static ref BOT_TOKEN: String = env::var("BOT_TOKEN").expect("BOT_TOKEN is not set");
     pub static ref CHAT_ID: String = env::var("CHAT_ID").expect("CHAT_ID is not set");
+}
+
+lazy_static! {
+    pub static ref TOKEN_META_MAP: RwLock<HashMap<String, TokenMeta>> = RwLock::new(HashMap::new());
 }

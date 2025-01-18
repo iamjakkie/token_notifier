@@ -27,6 +27,7 @@ pub struct TradeData {
     pub signer_lamports_change: i64,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TokenMeta {
     pub mint: String,
     pub decimals: u8,
