@@ -2,6 +2,7 @@ use std::env;
 
 use anyhow::Result;
 use reqwest::Client;
+use solana_sdk::message;
 
 use crate::{
     global::{BOT_TOKEN, CHAT_ID, NOTIFIED_TOKENS, SOL_PRICE},
@@ -11,8 +12,14 @@ use crate::{
 
 const SOL_ADDRESS: &str = "So11111111111111111111111111111111111111112";
 
-pub async fn send_message(message: String) -> Result<()> {
+pub async fn send_message(token: &String, amm: String, market_cap: f64) -> Result<()> {
     let url = format!("https://api.telegram.org/bot{}/sendMessage", BOT_TOKEN.as_str());
+
+    let dexscreener_link = format!("https://dexscreener.com/solana/{}", amm.to_lowercase());
+    let message = format!(
+        "🚀 New token alert 🚀\n\nToken: {}\nAMM: {}\nMarket Cap: ${:.2}M\n\nDexscreener: {}",
+        token, amm, market_cap / 1_000_000.0, dexscreener_link
+    );
 
     let client = Client::new();
     let resp = client
@@ -51,11 +58,6 @@ pub async fn process_trade(trade: TradeData) {
         let usd_price = token_price * sol_price;
         let market_cap = usd_price * data.supply;
 
-        // 3. Maybe send a basic message with the MC info
-        // (You can skip this if you only want the 10M crossing message)
-        let _ = send_message(format!("Market Cap of {} is {}", token, market_cap)).await;
-
-        // 4. If it crosses 10M, check if we already signaled
         if market_cap > 10_000_000.0 {
             let already_notified = {
                 let read_guard = NOTIFIED_TOKENS.read().unwrap();
@@ -63,10 +65,8 @@ pub async fn process_trade(trade: TradeData) {
             };
 
             if !already_notified {
-                // 5. Send the crossing message
-                let _ = send_message(format!("Market Cap of {} just crossed 10M => {}", token, market_cap)).await;
+                let _ = send_message(&token, trade.pool_address.clone(), market_cap).await;
 
-                // 6. Insert into the set so we don't notify again
                 let mut write_guard = NOTIFIED_TOKENS.write().unwrap();
                 write_guard.insert(token);
             }
