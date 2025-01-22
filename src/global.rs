@@ -1,4 +1,4 @@
-use std::{collections::{HashMap, HashSet}, env, sync::{Arc, RwLock}};
+use std::{collections::{HashMap, HashSet, VecDeque}, env, sync::{Arc, Mutex, RwLock}};
 use solana_client::rpc_client::RpcClient;
 use lazy_static::lazy_static;
 use solana_sdk::commitment_config::CommitmentConfig;
@@ -30,4 +30,8 @@ lazy_static! {
 
 lazy_static! {
     pub static ref NOTIFIED_TOKENS: RwLock<HashSet<String>> = RwLock::new(HashSet::new());
+}
+
+lazy_static! {
+    pub static ref MESSAGE_QUEUE: Mutex<VecDeque<String>> = Mutex::new(VecDeque::new());
 }
