@@ -44,3 +44,22 @@ pub struct PriceResponse {
 
 #[derive(Serialize, Deserialize)]
 pub struct TokenList(pub Vec<String>);
+
+#[derive(Debug, Deserialize)]
+pub struct TokenMetaResponse {
+    pub success: bool,
+    pub data: TokenData,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct TokenData {
+    pub supply: f64,
+    pub name: String,
+    pub symbol: String,
+    pub decimals: u8,
+    pub holder: u64,
+    pub created_time: u64,
+    pub first_mint_time: u64,
+    pub volume_24h: u64,
+    pub amm: String,
+}

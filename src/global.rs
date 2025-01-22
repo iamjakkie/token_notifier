@@ -3,7 +3,7 @@ use solana_client::rpc_client::RpcClient;
 use lazy_static::lazy_static;
 use solana_sdk::commitment_config::CommitmentConfig;
 
-use crate::models::TokenMeta;
+use crate::models::{TokenData, TokenMeta};
 
 lazy_static! {
     pub static ref RPC_CLIENT: Arc<RpcClient> = {
@@ -25,7 +25,7 @@ lazy_static!{
 }
 
 lazy_static! {
-    pub static ref TOKEN_META_MAP: RwLock<HashMap<String, TokenMeta>> = RwLock::new(HashMap::new());
+    pub static ref TOKEN_META_MAP: RwLock<HashMap<String, TokenData>> = RwLock::new(HashMap::new());
 }
 
 lazy_static! {
@@ -34,4 +34,8 @@ lazy_static! {
 
 lazy_static! {
     pub static ref MESSAGE_QUEUE: Mutex<VecDeque<String>> = Mutex::new(VecDeque::new());
+}
+
+lazy_static! {
+    pub static ref SOLSCAN_API_KEY: String = env::var("SOLSCAN_API_KEY").expect("SOLSCAN_API_KEY is not set");
 }

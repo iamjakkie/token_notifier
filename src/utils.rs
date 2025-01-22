@@ -3,11 +3,11 @@ use serde_json;
 use tokio::time::{sleep, Duration};
 use std::sync::Arc;
 
-use crate::{global::{NOTIFIED_TOKENS, TOKEN_META_MAP}, models::{TokenList, TokenMeta}};
+use crate::{global::{NOTIFIED_TOKENS, TOKEN_META_MAP}, models::{TokenData, TokenList, TokenMeta}};
 
 pub fn load_token_meta_cache(file_path: &str) {
     if let Ok(contents) = fs::read_to_string(file_path) {
-        if let Ok(cache_map) = serde_json::from_str::<HashMap<String, TokenMeta>>(&contents) {
+        if let Ok(cache_map) = serde_json::from_str::<HashMap<String, TokenData>>(&contents) {
             let mut write_map = TOKEN_META_MAP.write().unwrap();
             *write_map = cache_map;
             println!("Loaded token metadata from {}", file_path);
